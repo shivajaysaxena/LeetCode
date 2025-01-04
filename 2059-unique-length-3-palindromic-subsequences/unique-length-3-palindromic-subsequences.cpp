@@ -17,8 +17,8 @@ public:
             int left = positions.first;
             int right = positions.second;
 
-            // if (right - left <= 1)
-            //     continue;
+            if (right - left <= 1)
+                continue;
 
             unordered_set<char> uniqueChars;
             for (int i = left + 1; i < right; i++) {
