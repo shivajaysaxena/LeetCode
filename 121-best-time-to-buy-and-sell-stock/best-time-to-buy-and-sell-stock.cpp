@@ -1,14 +1,23 @@
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        int min_price = prices[0];
-        int maxprof = 0;
+    int maxProfit(vector<int>& arr) {
+        int n=arr.size();
+        int maxProfit = 0;
+        // Initialize mini to the first element of arr
+        int mini = arr[0]; 
 
-        for(int i=1;i<prices.size();i++){
-            maxprof = max(maxprof,prices[i]-min_price);
-            min_price = min(prices[i],min_price);
+        // Traverse through the array 
+        for (int i = 1; i < n; i++) {
+            // Calculate current profit
+            int curProfit = arr[i] - mini; 
+            
+            // Update maxProfit if curProfit is larger
+            maxProfit = max(maxProfit, curProfit); 
+            
+            // Update mini to minimum value encountered so far
+            mini = min(mini, arr[i]); 
         }
-
-        return maxprof;
+        // Return the maximum profit
+        return maxProfit; 
     }
 };
