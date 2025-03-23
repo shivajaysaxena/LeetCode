@@ -1,14 +1,17 @@
 class Solution {
-    public:
-    int lengthOfLIS(vector<int>& nums){
-        vector<int> sorted;
-        for(int i=0; i<nums.size(); i++){
-            auto it=lower_bound(sorted.begin(), sorted.end(), nums[i]); 
-            if(it==sorted.end()){
-                sorted.push_back(nums[i]); 
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> sub;
+
+        for (int num : nums) {
+            auto it = lower_bound(sub.begin(), sub.end(), num);
+            if (it == sub.end()) {
+                sub.push_back(num); // Append if num is larger than all elements
+            } else {
+                *it = num; // Replace the element at the found position
             }
-            else *it=nums[i];  
         }
-        return sorted.size();
+
+        return sub.size();
     }
 };
