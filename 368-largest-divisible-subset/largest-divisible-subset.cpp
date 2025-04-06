@@ -14,7 +14,7 @@ public:
             for (int j = 0; j < i; j++) {
                 if (nums[i] % nums[j] == 0 && dp[i] < dp[j] + 1) {
                     dp[i] = dp[j] + 1;
-                    parent[i] = j; 
+                    parent[i] = j;
                 }
             }
 
@@ -24,13 +24,12 @@ public:
             }
         }
 
-        
         vector<int> result;
         for (int i = maxIndex; i != -1; i = parent[i]) {
             result.push_back(nums[i]);
         }
 
-        reverse(result.begin(), result.end()); 
+        reverse(result.begin(), result.end());
         return result;
     }
 };
