@@ -1,22 +1,24 @@
 class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
-        int n = s1.length(), m = s2.length();
-        if (n > m)
+        if (s1.length() > s2.length())
             return false;
-        vector<int> a(26, 0), b(26, 0);
-        for (int i = 0; i < n; i++)
-            a[s1[i] - 'a']++;
-        for (int i = 0; i < n; i++)
-            b[s2[i] - 'a']++;
-        if (a == b)
-            return true;
-        for (int i = n; i < m; i++) {
-            b[s2[i] - 'a']++;
-            b[s2[i - n] - 'a']--;
-            if (a == b)
-                return true;
+
+        vector<int> s1Freq(26, 0), s2Freq(26, 0);
+
+        for (int i = 0; i < s1.length(); ++i) {
+            s1Freq[s1[i] - 'a']++;
+            s2Freq[s2[i] - 'a']++;
         }
-        return false;
+
+        for (int i = s1.length(); i < s2.length(); ++i) {
+            if (s1Freq == s2Freq)
+                return true;
+
+            s2Freq[s2[i] - 'a']++;
+            s2Freq[s2[i - s1.length()] - 'a']--;
+        }
+
+        return s1Freq == s2Freq;
     }
 };
