@@ -12,12 +12,7 @@ public:
         }
 
         for (int i = curInd; i < n; i++) {
-            if (i != curInd &&
-                candidates[i] ==
-                    candidates[i -
-                               1]) // to avoid picking up the same combnations
-                                   // i.e. we don't pick same element for
-                                   // certain kth position of a combination
+            if (i != curInd && candidates[i] == candidates[i - 1])
                 continue;
             sum += candidates[i];
             curr.push_back(candidates[i]);
