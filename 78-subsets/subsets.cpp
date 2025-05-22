@@ -1,17 +1,20 @@
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> result;
-        int n = nums.size();
-        for (int i = 0; i < (1 << n); i++) {
-            vector<int> subset;
-            for (int j = 0; j < n; j++) {
-                if ((i & (1 << j))) {
-                    subset.push_back(nums[j]);
-                }
-            }
-            result.push_back(subset);
+        vector<int> subset;
+        vector<vector<int>> ans;
+        recursion(nums, subset, ans, 0);
+        return ans;
+    }
+    void recursion(const vector<int>& nums, vector<int>& subset,
+                   vector<vector<int>>& ans, int i) {
+        if (i >= nums.size()) {
+            ans.push_back(subset);
+            return;
         }
-        return result;
+        subset.push_back(nums[i]);
+        recursion(nums, subset, ans, i + 1);
+        subset.pop_back();
+        recursion(nums, subset, ans, i + 1);
     }
 };
