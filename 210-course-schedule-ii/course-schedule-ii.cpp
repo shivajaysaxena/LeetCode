@@ -5,13 +5,13 @@ public:
         vector<int> indegree(numCourses, 0);
         vector<vector<int>> adjacencyList(numCourses);
         for (auto& i : prerequisites) {
-            adjacencyList[i[0]].push_back(i[1]); 
+            adjacencyList[i[0]].push_back(i[1]);
             indegree[i[1]]++;
         }
-        
-        int index = 0; 
+
+        int index = 0;
         queue<int> q;
-        
+
         for (int i = 0; i < numCourses; i++) {
             if (indegree[i] == 0)
                 q.push(i);
