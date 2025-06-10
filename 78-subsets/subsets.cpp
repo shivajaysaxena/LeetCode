@@ -12,9 +12,10 @@ public:
             ans.push_back(subset);
             return;
         }
+        recursion(nums, subset, ans, i + 1);
         subset.push_back(nums[i]);
         recursion(nums, subset, ans, i + 1);
         subset.pop_back();
-        recursion(nums, subset, ans, i + 1);
+        
     }
 };
