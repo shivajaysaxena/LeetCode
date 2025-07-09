@@ -1,18 +1,22 @@
 class Solution {
 public:
     vector<string> stringMatching(vector<string>& words) {
-        int n = words.size();
+        sort(words.begin(), words.end(), [](const string& s, const string& t) {
+            return s.size() < t.size();
+        });
+        const int n = words.size();
         vector<string> ans;
-
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (i != j && words[j].find(words[i]) != string::npos) {
-                    ans.push_back(words[i]);
+        ans.reserve(n);
+        for (int i = 0; i < n - 1; i++) {
+            auto& s = words[i];
+            for (int j = i + 1; j < n; j++) {
+                auto& t = words[j];
+                if (t.find(s) != -1) {
+                    ans.push_back(s);
                     break;
                 }
             }
         }
-
         return ans;
     }
 };
