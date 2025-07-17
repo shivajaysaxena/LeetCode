@@ -1,28 +1,34 @@
 class Solution {
 public:
-    bool iscycle(vector<int> adj[], vector<int>& vis, int id) {
-        if (vis[id] == 1)
-            return true;
-        if (vis[id] == 0) {
-            vis[id] = 1;
-            for (auto edge : adj[id]) {
-                if (iscycle(adj, vis, edge))
-                    return true;
+    bool canFinish(int n, vector<vector<int>>& prerequisites) {
+        vector<int> adj[n];
+        vector<int> indegree(n, 0);
+        vector<int> ans;
+
+        for(auto x: prerequisites){
+            adj[x[0]].push_back(x[1]);
+            indegree[x[1]]++;
+        }
+
+        queue<int> q;
+        for(int i = 0; i < n; i++){
+            if(indegree[i] == 0){
+                q.push(i);
             }
         }
-        vis[id] = 2;
-        return false;
-    }
-    bool canFinish(int n, vector<vector<int>>& pre) {
-        vector<int> adj[n];
-        for (auto edge : pre)
-            adj[edge[1]].push_back(edge[0]);
-        vector<int> vis(n, 0);
 
-        for (int i = 0; i < n; i++) {
-            if (iscycle(adj, vis, i))
-                return false;
+        while(!q.empty()){
+            auto t = q.front();
+            ans.push_back(t);
+            q.pop();
+
+            for(auto x: adj[t]){
+                indegree[x]--;
+                if(indegree[x] == 0){
+                    q.push(x);
+                }
+            }
         }
-        return true;
+        return ans.size() == n;
     }
 };
