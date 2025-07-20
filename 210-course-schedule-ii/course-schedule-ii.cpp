@@ -19,7 +19,7 @@ public:
         int top;
         while (!q.empty()) {
             top = q.front();
-            cout << top << " ";
+            // cout << top << " ";
             q.pop();
             index++;
             for (auto& i : adjacencyList[top]) {
