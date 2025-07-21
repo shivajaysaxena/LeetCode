@@ -1,35 +1,35 @@
+typedef pair<int, pair<int, int>> Node;
 class Solution {
 public:
     vector<int> smallestRange(vector<vector<int>>& nums) {
-        int n = nums.size();
-        int m = nums[0].size();
-        vector<int> ans;
-        vector<pair<int, int>> merged;
-        vector<int> freq(n);
-        for (int i = 0; i < n; i++) {
-            for (int num : nums[i]) {
-                merged.push_back({num, i});
+        int k = nums.size();
+        priority_queue<Node, vector<Node>, greater<Node>> minHeap;
+        int maxVal = INT_MIN;
+
+        // Initialize heap with first element from each list
+        for (int i = 0; i < k; i++) {
+            minHeap.push({nums[i][0], {i, 0}});
+            maxVal = max(maxVal, nums[i][0]);
+        }
+
+        int rangeStart = 0, rangeEnd = INT_MAX;
+
+        while (minHeap.size() == k) {
+            auto [val, pos] = minHeap.top();
+            minHeap.pop();
+
+            if (maxVal - val < rangeEnd - rangeStart) {
+                rangeStart = val;
+                rangeEnd = maxVal;
+            }
+
+            if (pos.second + 1 < nums[pos.first].size()) {
+                int nextVal = nums[pos.first][pos.second + 1];
+                minHeap.push({nextVal, {pos.first, pos.second + 1}});
+                maxVal = max(maxVal, nextVal);
             }
         }
-        sort(merged.begin(), merged.end());
-        int i = 0, j = 0, len = 1e8;
-        int covered = 0;
-        while (j < merged.size()) {
-            if (freq[merged[j].second] == 0)
-                covered++;
-            freq[merged[j].second]++;
-            while (covered == n) {
-                if ((merged[j].first - merged[i].first) < len) {
-                    ans = {merged[i].first, merged[j].first};
-                    len = merged[j].first - merged[i].first;
-                }
-                if (freq[merged[i].second] == 1)
-                    covered--;
-                freq[merged[i].second]--;
-                i++;
-            }
-            j++;
-        }
-        return ans;
+
+        return {rangeStart, rangeEnd};
     }
 };
