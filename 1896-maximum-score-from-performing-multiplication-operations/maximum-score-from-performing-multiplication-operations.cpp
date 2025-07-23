@@ -1,17 +1,17 @@
 class Solution {
 public:
-    int dp[1001][1001] = {};
-    int dfs(vector<int>& nums, vector<int>& mults, int l, int i) {
-        if (i >= mults.size())
-            return 0;
-        if (!dp[l][i]) {
-            int r = nums.size() - 1 - (i - l);
-            dp[l][i] = max(nums[l] * mults[i] + dfs(nums, mults, l + 1, i + 1),
-                           nums[r] * mults[i] + dfs(nums, mults, l, i + 1));
+    int maximumScore(vector<int>& nums, vector<int>& multipliers) {
+        int n = nums.size(), m = multipliers.size();
+        vector<vector<int>> dp(m + 1, vector<int>(m + 1, 0));
+
+        for (int i = m - 1; i >= 0; --i) {
+            for (int l = i; l >= 0; --l) {
+                int r = n - 1 - (i - l);
+                dp[i][l] = max(multipliers[i] * nums[l] + dp[i + 1][l + 1],
+                               multipliers[i] * nums[r] + dp[i + 1][l]);
+            }
         }
-        return dp[l][i];
-    }
-    int maximumScore(vector<int>& nums, vector<int>& mults) {
-        return dfs(nums, mults, 0, 0);
+
+        return dp[0][0];
     }
 };
