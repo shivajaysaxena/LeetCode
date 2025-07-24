@@ -1,38 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int rows = heights.size(), cols = heights[0].size();
-        vector<vector<int>> dist(rows, vector<int>(cols, INT_MAX));
-        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>,
-                       greater<>>
-            minHeap;
-        minHeap.emplace(0, 0, 0);
-        dist[0][0] = 0;
+        int n = heights.size();
+        int m = heights[0].size();
 
-        int directions[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        auto isValid = [&](int effort) {
+            vector<vector<bool>> visited(n, vector<bool>(m, false));
+            queue<pair<int, int>> q;
+            q.push({0, 0});
+            visited[0][0] = true;
 
-        while (!minHeap.empty()) {
-            auto [effort, x, y] = minHeap.top();
-            minHeap.pop();
+            vector<pair<int, int>> dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
 
-            if (effort > dist[x][y])
-                continue;
+            while (!q.empty()) {
+                auto [r, c] = q.front();
+                q.pop();
 
-            if (x == rows - 1 && y == cols - 1)
-                return effort;
+                if (r == n - 1 && c == m - 1)
+                    return true;
 
-            for (auto& dir : directions) {
-                int nx = x + dir[0], ny = y + dir[1];
-                if (nx >= 0 && nx < rows && ny >= 0 && ny < cols) {
-                    int new_effort =
-                        max(effort, abs(heights[x][y] - heights[nx][ny]));
-                    if (new_effort < dist[nx][ny]) {
-                        dist[nx][ny] = new_effort;
-                        minHeap.emplace(new_effort, nx, ny);
+                for (auto& [dr, dc] : dirs) {
+                    int nr = r + dr, nc = c + dc;
+                    if (nr >= 0 && nr < n && nc >= 0 && nc < m &&
+                        !visited[nr][nc]) {
+                        int diff = abs(heights[nr][nc] - heights[r][c]);
+                        if (diff <= effort) {
+                            visited[nr][nc] = true;
+                            q.push({nr, nc});
+                        }
                     }
                 }
             }
+
+            return false;
+        };
+
+        int low = 0, high = 1e6, ans = 0;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (isValid(mid)) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
         }
-        return -1;
+        return ans;
     }
 };
