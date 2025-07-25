@@ -1,21 +1,24 @@
 class Solution {
 public:
     int maxSum(vector<int>& nums) {
-        int sum = 0;
+        int n=nums.size();
+        int mxmin=INT_MIN;
         set<int> st;
-        int mxNeg = INT_MIN;
-        for (int i = 0; i < nums.size(); i++) {
-            if (nums[i] > 0)
+        for(int i=0;i<n;i++){
+            if(nums[i]>0){
                 st.insert(nums[i]);
-            else
-                mxNeg = max(mxNeg, nums[i]);
+            }
+            else{
+                mxmin=max(mxmin,nums[i]);
+            }
         }
-        for (auto val : st) {
-            sum += val;
-        }
-        if (st.size())
+        if(st.size()){
+            int sum=0;
+            for(auto& it:st){
+                sum+=it;
+            }
             return sum;
-        else
-            return mxNeg;
+        }
+        return mxmin;
     }
 };
