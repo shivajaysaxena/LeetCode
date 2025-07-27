@@ -8,7 +8,8 @@ public:
             hash[t].push_back(s);
         }
         vector<vector<string>> result;
-        for (auto& [k, v] : hash) result.push_back(v);
+        for (auto& [k, v] : hash)
+            result.push_back(v);
         return result;
     }
 };
