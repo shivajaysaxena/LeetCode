@@ -17,7 +17,6 @@ public:
             return {};
         int max = INT_MIN, max1 = 0;
         int sum = 0, count = 1;
-        vector<pair<int, int>> v;
         queue<TreeNode*> pq;
         pq.push(root);
         while (!pq.empty()) {
